@@ -9,24 +9,41 @@ class Puzzle:
             if self._is_solvable(board):
                 return board
 
+    #add that if we find a number in a cycle to not search for it again
     @staticmethod
     def _is_solvable(board):
-        serpent = board
-        serpent[3:5] = serpent[3:5][::-1]
+        actual = board[:]
+        target = [1, 2, 3, 4, 5, 6, 7, 8]
+
+        actual.remove(0)
 
         cycles = 0
+        frontier = []
 
         for i in range(8):
-            cycles += Puzzle._is_solvable_helper(board, serpent, i)
+            if i not in frontier:
+                cycle_val = i + 1
+                cycles += Puzzle._is_solvable_helper(target, actual, i, cycle_val, frontier)
 
-        return not (8 - cycles % 2)
+        return not (8 - cycles) % 2
 
     @staticmethod
-    def _is_solvable_helper(board, serpent, i):
-        if serpent[i] == board[i]:
+    def _is_solvable_helper( board, actual, i, cycle_val, frontier):
+        if actual[i] == cycle_val:
+            frontier.append(i)
             return 1
 
-        val = serpent[i]
+        val = actual[i]
+
+        if i in frontier:
+            return 0
+
+        frontier.append(i)
+
         new_index = board.index(val)
-        Puzzle._is_solvable_helper(board, serpent, new_index)
-        return 0
+
+        return Puzzle._is_solvable_helper(board, actual, new_index, cycle_val, frontier)
+
+if __name__ == "__main__":
+    test_board = [1, 2, 3, 4, 5, 6, 7, 8, 0]
+    print(Puzzle._is_solvable(test_board))
