@@ -2,16 +2,18 @@ import random
 
 
 class Puzzle:
+    """Generates a 3x3 sliding puzzle board that is solvable"""
     def generate(self):
+        """Generate a random 3x3 solvable board"""
         while 1:
             board = [0, 1, 2, 3, 4, 5, 6, 7, 8]
             random.shuffle(board)
             if self._is_solvable(board):
                 return board
 
-    #add that if we find a number in a cycle to not search for it again
     @staticmethod
     def _is_solvable(board):
+        """Checks if a generated board is solvable, returns true if solvable"""
         actual = board[:]
         target = [1, 2, 3, 4, 5, 6, 7, 8]
 
@@ -29,6 +31,7 @@ class Puzzle:
 
     @staticmethod
     def _is_solvable_helper( board, actual, i, cycle_val, frontier):
+        """Helper to trace each index"""
         if actual[i] == cycle_val:
             frontier.append(i)
             return 1
