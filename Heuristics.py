@@ -6,8 +6,7 @@ These functions estimate how far a board is from the goal state:
 - Heuristic3 computes moves used in a relaxed adjacency model
 
 The project currently uses a 3x3 board represented as a list of nine values,
-with 0 as the empty tile. The goal state is treated as [1, 2, 3, 4, 5, 6, 7, 8, 0],
-so the empty tile is ignored in the heuristic calculations.
+with 0 as the empty tile. The goal state is treated as [0,1,2,3,4,5,6,7,8]
 """
 
 from Puzzle.PuzzleFunctions import checkInput, isCompleted
