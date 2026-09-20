@@ -18,7 +18,7 @@ def a_star(puzzle, heuristic):
         visited.append(current)
 
         if isCompleted(current):
-            return current
+            return (counter, g)
 
         states = []
         states.extend(returnPermutations(current))
