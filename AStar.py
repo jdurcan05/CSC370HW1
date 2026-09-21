@@ -6,16 +6,19 @@ import heapq
 
 def a_star(puzzle, heuristic):
     pq = []
-    visited = []
+    visited = set()
     counter = 0 # for pq tie breakers
     heapq.heappush(pq, (heuristic(puzzle), counter, puzzle, 1))
 
     while 1:
         _, _, current, g = heapq.heappop(pq)
 
-        if current in visited:
+        current_num = ""
+        for i in range(0,9):
+            current_num = current_num + str(current[i])
+        if current_num in visited:
             continue
-        visited.append(current)
+        visited.add(current_num)
 
         if isCompleted(current):
             return (counter, g)
