@@ -11,8 +11,8 @@ class Puzzledata:
     h2Nodes: int
     h3Nodes: int
 
-PUZZLES_WANTED = 1
-MAX_GENERATED = 20000000000000,
+PUZZLES_WANTED = 2
+MAX_GENERATED = 20000000000000
 
 generator = Puzzle.Puzzle()
 finalData = {}
@@ -58,14 +58,45 @@ while not done:
             if(len(finalData[i])) < PUZZLES_WANTED:
                 done = False
                 break
-    
+
+
+actualData = {}
+
 for i in range(2,26):
     if i%2 == 0:
-        print(finalData[i])
+        if not finalData[i]:
+            continue
+        actualData[i] = []
+        h1AVG = 0
+        h2AVG = 0
+        h3AVG = 0
+        for j in range(len(finalData[i])):
+            h1AVG = h1AVG + finalData[i][j].h1Nodes
+            h2AVG = h2AVG + finalData[i][j].h2Nodes
+            h3AVG = h3AVG + finalData[i][j].h3Nodes
+        h1AVG = h1AVG/len(finalData[i])
+        h2AVG = h2AVG/len(finalData[i])
+        h3AVG = h3AVG/len(finalData[i])
+        actualData[i].append(i)
+        actualData[i].append(h1AVG)
+        actualData[i].append(h2AVG)
+        actualData[i].append(h3AVG)
+        actualData[i].append(len(finalData[i]))
+        print(actualData[i])
 
 
-# with open('Results.csv', mode='w', newline='', encoding='utf-8') as file:
 
-#     header = ['Solution_number', 'Heuristic1', 'Heuristic2','Heuristic3']
-#     file.writerow(header)
+with open("Results.csv", "w", newline="", encoding="utf-8") as file:
+    writer = csv.writer(file)
+
+    writer.writerow([
+        "Solution Number",
+        "Heuristic 1 Average Nodes",
+        "Heuristic 2 Average Nodes",
+        "Heuristic 3 Average Nodess"
+        "Number of puzzles generated"
+    ])
+
+    for solution_number, averages in actualData.items():
+        writer.writerow(averages)
 
