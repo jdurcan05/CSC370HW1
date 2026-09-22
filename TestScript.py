@@ -1,3 +1,5 @@
+import random
+
 from Puzzle.Heuristics import Heuristic1, Heuristic2, Heuristic3 # for testing
 from Puzzle.PuzzleFunctions import *
 from Puzzle import Puzzle
@@ -11,52 +13,40 @@ class Puzzledata:
     h2Nodes: int
     h3Nodes: int
 
-PUZZLES_WANTED = 2
-MAX_GENERATED = 20000000000000
-
 generator = Puzzle.Puzzle()
 finalData = {}
 done = False
 puzzles_generated = 0
+g = 2
 
-
+states = generator.generate()
 
 
 for i in range(2,26):
     finalData[i] = []
 
 
-while not done:
-    done = True
-    if puzzles_generated> MAX_GENERATED :
-        break
-    puzz = generator.generate()
-    h2Struct = AStar.a_star(puzz,Heuristic2)
-    if h2Struct[1]%2 == 1:
-        g = h2Struct[1]-1
+while g <= 24:
+    matching_keys = [k for k, v in states.items() if v == g]
+    if len(matching_keys) >= 100:
+        random_keys = random.sample(matching_keys, 100)
     else:
-        g = h2Struct[1]
-    if g>24 or g<2 or len(finalData[g]) >= PUZZLES_WANTED:
-        puzzles_generated+=1
-        done = False
-        continue
-    h1Struct = AStar.a_star(puzz,Heuristic1)
-    h3Struct = AStar.a_star(puzz,Heuristic3)
+        random_keys = matching_keys
 
-    if (h1Struct[1] == g or h1Struct[1] == g+1) and (g == h3Struct[1] or g+1 == h3Struct[1]):
-        g = h1Struct[1]
-        finalData[g].append(Puzzledata(h1Struct[0],h2Struct[0],h3Struct[0]))
-    else:
-        print(h1Struct, h2Struct, h3Struct)
-        print(puzz)
-        exit("Something is wrong with a heuristic")
+    for puzz in random_keys:
+        puzz = list(puzz)
+        h1Struct = AStar.a_star(puzz,Heuristic1)
+        h2Struct = AStar.a_star(puzz, Heuristic2)
+        h3Struct = AStar.a_star(puzz,Heuristic3)
 
-    puzzles_generated+=1
+        if (h1Struct[1] == g or h1Struct[1] == g+1) and (g == h3Struct[1] or g+1 == h3Struct[1]):
+            finalData[g].append(Puzzledata(h1Struct[0],h2Struct[0],h3Struct[0]))
+        else:
+            print(h1Struct, h2Struct, h3Struct)
+            print(puzz)
+            exit("Something is wrong with a heuristic")
 
-    for i in range(2,26):
-        if i % 2 == 0 and (len(finalData[i])) < PUZZLES_WANTED:
-            done = False
-            break
+    g+=2
 
 
 actualData = {}
