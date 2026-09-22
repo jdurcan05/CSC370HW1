@@ -5,7 +5,7 @@ import AStar
 import csv
 from dataclasses import dataclass
 
-@dataclass 
+@dataclass
 class Puzzledata:
     h1Nodes: int
     h2Nodes: int
@@ -52,12 +52,11 @@ while not done:
         exit("Something is wrong with a heuristic")
 
     puzzles_generated+=1
-    
+
     for i in range(2,26):
-        if i%2 == 0:
-            if(len(finalData[i])) < PUZZLES_WANTED:
-                done = False
-                break
+        if i % 2 == 0 and (len(finalData[i])) < PUZZLES_WANTED:
+            done = False
+            break
 
 
 actualData = {}
@@ -93,10 +92,9 @@ with open("Results.csv", "w", newline="", encoding="utf-8") as file:
         "Solution Number",
         "Heuristic 1 Average Nodes",
         "Heuristic 2 Average Nodes",
-        "Heuristic 3 Average Nodess"
+        "Heuristic 3 Average Nodes",
         "Number of puzzles generated"
     ])
 
     for solution_number, averages in actualData.items():
         writer.writerow(averages)
-
