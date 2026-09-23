@@ -3,13 +3,14 @@ import math
 
 CSV_NAME = "ResultsV1.csv"
 RESULTS_NAME = "bStarResults.csv"
+ARBITRARY_LOW_NUMBER = 0.0000000001
 
 def bin_search(nodes, depth):
     low = 1
     high = nodes
     
     total = 0
-    while abs(nodes-total) > 0.0000000001:
+    while abs(nodes-total) > ARBITRARY_LOW_NUMBER:
         total = 0
         bStar = high-((high-low)/2)
 
@@ -40,7 +41,7 @@ for i in range(len(data_list)):
     data_list[i]["H2 Branching Factor"] = h2BF
     data_list[i]["H3 Branching Factor"] = h3BF
 
-    
+
 with open(RESULTS_NAME, "w", newline="", encoding="utf-8") as file:
     keys = data_list[0].keys()
 
