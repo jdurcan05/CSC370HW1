@@ -1,5 +1,4 @@
 import csv
-import math
 
 CSV_NAME = "ResultsV1.csv"
 RESULTS_NAME = "bStarResults.csv"

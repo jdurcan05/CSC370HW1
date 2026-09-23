@@ -13,7 +13,7 @@ class Puzzledata:
     h2Nodes: int
     h3Nodes: int
 
-MAX_PUZZLES = 1000
+MAX_PUZZLES = 100
 OUTPUT_CSV = "ResultsV2.csv"
 MAX_STEPS = 24
 MIN_STEPS = 2
@@ -81,7 +81,6 @@ for i in range(MIN_STEPS,MAX_STEPS+1, 2):
     actualData[i].append(h2AVG)
     actualData[i].append(h3AVG)
     actualData[i].append(len(finalData[i]))
-    print(actualData[i])
 
 
 #Write to CSV
