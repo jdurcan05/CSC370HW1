@@ -13,26 +13,31 @@ class Puzzledata:
     h2Nodes: int
     h3Nodes: int
 
+MAX_PUZZLES = 100
+OUTPUT_CSV = "ResultsV2.csv"
+MAX_STEPS = 24
+MIN_STEPS = 2
+
 generator = Puzzle.Puzzle()
 finalData = {}
 done = False
 puzzles_generated = 0
-g = 2
+g = MIN_STEPS
 
 #Get all possible puzzle states
 states = generator.generate()
 
 #Create empty arrays
-for i in range(2,26,2):
+for i in range(MIN_STEPS,MAX_STEPS+1,2):
     finalData[i] = []
 
 #Loop through all gs being recorded
-while g <= 24:
+while g <= MAX_STEPS:
     #Get all puzzles matching the needed g
     matching_keys = [k for k, v in states.items() if v==g]
     #Get random sample of these puzzles
-    if len(matching_keys) >= 100:
-        random_keys = random.sample(matching_keys, 100)
+    if len(matching_keys) >= MAX_PUZZLES:
+        random_keys = random.sample(matching_keys, MAX_PUZZLES)
     else:
         random_keys = matching_keys
 
@@ -57,7 +62,7 @@ while g <= 24:
 actualData = {}
 
 #Aggregate results from each heuristic
-for i in range(2,26, 2):
+for i in range(MIN_STEPS,MAX_STEPS+1, 2):
     if not finalData[i]:
         continue
     actualData[i] = []
@@ -76,11 +81,10 @@ for i in range(2,26, 2):
     actualData[i].append(h2AVG)
     actualData[i].append(h3AVG)
     actualData[i].append(len(finalData[i]))
-    print(actualData[i])
 
 
 #Write to CSV
-with open("ResultsV1.csv", "w", newline="", encoding="utf-8") as file:
+with open(OUTPUT_CSV, "w", newline="", encoding="utf-8") as file:
     writer = csv.writer(file)
 
     writer.writerow([

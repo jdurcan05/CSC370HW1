@@ -43,7 +43,3 @@ def a_star(puzzle, heuristic):
                 generated.add(current_num)
             
             heapq.heappush(pq,(heuristic(state) + g, counter, state, g + 1))
-
-if __name__ == "__main__":
-    test_board = [8,7,6,5,4,3,2,1,0]
-    print(a_star(test_board, Puzzle.Heuristics.Heuristic1))
